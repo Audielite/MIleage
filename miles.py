@@ -8,9 +8,8 @@ db_url = 'mileage.db'
     create table miles (vehicle text, total_miles float);
 """
 
-#class MileageError(Exception):
-    #pass
-
+class Error_miles(Exception):
+    pass
 
 def add_miles(vehicle, new_miles):
     """If the vehicle is in the database, increment the number of miles by new_miles
@@ -19,10 +18,10 @@ def add_miles(vehicle, new_miles):
     #vehicle = all_chars_upper_case(vehicle)
 
     if not vehicle:
-        raise Exception('Provide a vehicle name')
+        raise Error_miles('Provide a vehicle name')
 
     if not isinstance(new_miles, (int, float)) or new_miles < 0:
-        raise Exception('Provide a positive number for new miles')
+        raise Error_miles('Provide a positive number for new miles')
 
     conn = sqlite3.connect(db_url)
     cursor = conn.cursor()
@@ -53,23 +52,9 @@ def main():
             break
 
         miles = int(input('Enter new miles for %s ' % vehicle)) ## TODO input validation
-        vehicle = mile_upper_case(vehicle)
+        vehicle = miles_upper_case(vehicle)
         add_miles(vehicle, miles)
         get_mileage(vehicle)
-
-        '''if vehicle == "SEARCH" or vehicle == "'SEARCH'":
-            vehicle = all_chars_upper_case(input("Enter name of vehicle to search for it.\n"
-                                                 "Press 'enter' without a name to exit.\n"))
-            if not vehicle:
-                break
-            mileage = get_mileage(vehicle)
-            if not mileage:
-                print('Vehicle not found.')
-            else:
-                print("The mileage is: \n" + mileage)
-        else:
-            miles = float(input('Enter new miles for %s: ' % vehicle))  # TODO input validation
-            add_miles(vehicle, miles)'''
 
 
 if __name__ == '__main__':
